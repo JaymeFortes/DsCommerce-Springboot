@@ -4,6 +4,8 @@ import com.DsCommerce.enums.OrderStatus;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_order")
@@ -23,6 +25,9 @@ public class Order {
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL) //relacionamento 1 para 1 ou 0, entre order e payment
     private Payment payment;
+
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Order() {
     }
