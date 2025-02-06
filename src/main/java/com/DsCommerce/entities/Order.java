@@ -9,24 +9,30 @@ import java.time.Instant;
 @Table(name = "tb_order")
 public class Order {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
     private OrderStatus status;
 
-    @ManyToOne
+    @ManyToOne //relacionamento muitos para um, entre order e user
     @JoinColumn(name = "client_id")
     private User client;
 
-    public Order() {}
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL) //relacionamento 1 para 1 ou 0, entre order e payment
+    private Payment payment;
 
-    public Order(Long id, Instant moment, OrderStatus status, User client) {
+    public Order() {
+    }
+
+    public Order(Long id, Instant moment, OrderStatus status, User client, Payment payment) {
         this.id = id;
         this.moment = moment;
         this.status = status;
         this.client = client;
+        this.payment = payment;
     }
 
     public Long getId() {
@@ -59,5 +65,13 @@ public class Order {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 }

@@ -20,7 +20,7 @@ public class User {
     private String password;
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client") //relacionamento um para muitos, entre user e order
     private List<Order> orders = new ArrayList<Order>();
 
     public User() {
@@ -87,7 +87,4 @@ public class User {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
 }
