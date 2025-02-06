@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,7 +27,7 @@ public class Order {
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL) //relacionamento 1 para 1 ou 0, entre order e payment
     private Payment payment;
 
-    @OneToMany(mappedBy = "id.order")
+    @OneToMany(mappedBy = "id.order")  //referencia o id da classe OrdemItem que está referenciando a classe OrdemItemPK
     private Set<OrderItem> items = new HashSet<>();
 
     public Order() {
@@ -79,4 +80,13 @@ public class Order {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public List<Product> getProducts() {
+        return items.stream().map(x -> x.getProduct()).toList();
+    }
+
 }
