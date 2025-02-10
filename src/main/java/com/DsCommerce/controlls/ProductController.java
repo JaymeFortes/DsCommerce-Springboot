@@ -1,9 +1,12 @@
 package com.DsCommerce.controlls;
 
+import com.DsCommerce.dto.ProductDTO;
 import com.DsCommerce.entities.Product;
 import com.DsCommerce.repository.ProductRepository;
+import com.DsCommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,12 +17,10 @@ import java.util.Optional;
 public class ProductController {
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
-    @GetMapping
-    public String test(){
-        Optional<Product> result = productRepository.findById(1L);
-        Product product = result.get();
-        return product.getName();
+    @GetMapping(value = "/{id}")
+    public ProductDTO findById(@PathVariable Long id) {
+        return productService.findById(id);
     }
 }
