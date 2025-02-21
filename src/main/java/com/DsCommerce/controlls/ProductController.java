@@ -1,6 +1,7 @@
 package com.DsCommerce.controlls;
 
 import com.DsCommerce.dto.ProductDTO;
+import com.DsCommerce.dto.ProductMinDTO;
 import com.DsCommerce.entities.Product;
 import com.DsCommerce.repository.ProductRepository;
 import com.DsCommerce.service.ProductService;
@@ -31,11 +32,11 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(
+    public ResponseEntity<Page<ProductMinDTO>> findAll(
             @RequestParam(name = "name", defaultValue = "") String name,
             Pageable pageable
     ) {
-        Page<ProductDTO> productDTOS = productService.findAll(name, pageable);
+        Page<ProductMinDTO> productDTOS = productService.findAll(name, pageable);
         return ResponseEntity.ok(productDTOS);
     }
 
