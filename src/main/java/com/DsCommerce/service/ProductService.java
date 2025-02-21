@@ -1,7 +1,9 @@
 package com.DsCommerce.service;
 
+import com.DsCommerce.dto.CategoryDTO;
 import com.DsCommerce.dto.ProductDTO;
 import com.DsCommerce.dto.ProductMinDTO;
+import com.DsCommerce.entities.Category;
 import com.DsCommerce.entities.Product;
 import com.DsCommerce.exceptions.DatabaseException;
 import com.DsCommerce.exceptions.ResourceNotFoundException;
@@ -76,5 +78,11 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
+        entity.getCategories().clear();
+        for (CategoryDTO categoryDTO : dto.getCategories()) {
+            Category category = new Category();
+            category.setId(categoryDTO.getId());
+            entity.getCategories().add(category);
+        }
     }
 }
