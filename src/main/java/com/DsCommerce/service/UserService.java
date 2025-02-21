@@ -8,6 +8,7 @@ import com.DsCommerce.entities.Role;
 import com.DsCommerce.entities.User;
 import com.DsCommerce.projections.UserDetailsProjection;
 import com.DsCommerce.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
