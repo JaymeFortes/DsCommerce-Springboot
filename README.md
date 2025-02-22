@@ -118,7 +118,7 @@ Um pedido pode ter os seguintes status:
 1. Clone o repositório:
 
 ```bash
-    git clone https://github.com/seu-usuario/dscommerce.git
+    https://github.com/JaymeFortes/DsCommerce-Springboot.git
 ```
 
 2. Acesse o diretório do projeto:
