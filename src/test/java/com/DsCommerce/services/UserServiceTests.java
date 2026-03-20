@@ -4,6 +4,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,7 @@ import com.DsCommerce.repository.UserRepository;
 import com.DsCommerce.service.UserService;
 import com.DsCommerce.tests.UserDetailsFactory;
 import com.DsCommerce.tests.UserFactory;
+import com.DsCommerce.util.CustomUserUtil;
 
 @ExtendWith(SpringExtension.class)
 public class UserServiceTests {
@@ -30,6 +32,9 @@ public class UserServiceTests {
 
     @Mock
     private UserRepository repository;
+
+    @Mock
+    private CustomUserUtil customUserUtil;
 
     private String existingUser, nonExistingUser;
     private User user;
@@ -47,6 +52,8 @@ public class UserServiceTests {
         when(repository.searchUserAndRolesByEmail(existingUser)).thenReturn(userDetailsProjections);
         when(repository.searchUserAndRolesByEmail(nonExistingUser)).thenReturn(new ArrayList<>());
 
+        when(repository.findByEmail(existingUser)).thenReturn(Optional.of(user));
+        when(repository.findByEmail(nonExistingUser)).thenReturn(Optional.empty());
     }
 
     @Test
@@ -61,6 +68,25 @@ public class UserServiceTests {
     public void loadUserByUsernameShouldThrowUsernameNotFoundExceptionWhenNonExistingUsername() {
         Assertions.assertThrows(UsernameNotFoundException.class, () -> {
             service.loadUserByUsername(nonExistingUser);
+        });
+    }
+
+    @Test
+    public void authenticateShouldReturnUserWhenExistingUsername() {
+        when(customUserUtil.getLoggedUsername()).thenReturn(existingUser);
+
+        User result = service.authenticate();
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(existingUser, result.getEmail());
+    }
+
+    @Test
+    public void authenticateShouldThrowUsernameNotFoundExceptionWhenNonExistingUsername() {
+        when(customUserUtil.getLoggedUsername()).thenReturn(nonExistingUser);
+
+        Assertions.assertThrows(UsernameNotFoundException.class, () -> {
+            service.authenticate();
         });
     }
 }
