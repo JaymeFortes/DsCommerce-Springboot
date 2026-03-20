@@ -3,7 +3,6 @@ package com.DsCommerce.entities;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
