@@ -1,5 +1,8 @@
 package com.DsCommerce.services;
 
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.DsCommerce.dto.UserDTO;
 import com.DsCommerce.entities.User;
 import com.DsCommerce.projections.UserDetailsProjection;
 import com.DsCommerce.repository.UserRepository;
@@ -89,4 +93,27 @@ public class UserServiceTests {
             service.authenticate();
         });
     }
+
+    @Test
+    public void getMeShouldReturnUserDTOWhenExistingUsername() {
+
+        UserService spyService = spy(service); // Cria um spy do serviço para poder mockar o método authenticate
+        doReturn(user).when(spyService).authenticate(); // Mocka o método authenticate para retornar o usuário existente
+
+        UserDTO result = spyService.getMe();
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(existingUser, result.getEmail());
+    }
+
+    @Test
+    public void getMeShouldThrowUsernameNotFoundExceptionWhenNonExistingUsername() {
+        UserService spyService = spy(service); // Cria um spy do serviço para poder mockar o método authenticate
+
+        doThrow(UsernameNotFoundException.class).when(spyService).authenticate(); // Mocka o método authenticate para lançar a exceção
+
+        Assertions.assertThrows(UsernameNotFoundException.class, () -> {
+            spyService.getMe();
+        });
+    }
+
 }
