@@ -1,26 +1,26 @@
 package com.DsCommerce.service;
 
-
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.DsCommerce.dto.UserDTO;
 import com.DsCommerce.entities.Role;
 import com.DsCommerce.entities.User;
 import com.DsCommerce.projections.UserDetailsProjection;
 import com.DsCommerce.repository.UserRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.DsCommerce.util.CustomUserUtil;
 
 @Service
 public class UserService implements UserDetailsService {
+
+    @Autowired
+    private CustomUserUtil customUserUtil;
 
     @Autowired
     private UserRepository repository;
@@ -43,13 +43,10 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    protected User authenticate() {
+    public User authenticate() {
         try {
 
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
-            String username = jwtPrincipal.getClaim("username");
-
+            String username = customUserUtil.getLoggedUsername();
             return repository.findByEmail(username).get();
         } catch (Exception e) {
             throw new UsernameNotFoundException("Email not found");
@@ -62,4 +59,3 @@ public class UserService implements UserDetailsService {
         return new UserDTO(user);
     }
 }
-
