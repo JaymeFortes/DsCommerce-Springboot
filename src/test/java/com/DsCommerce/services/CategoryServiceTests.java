@@ -31,8 +31,6 @@ public class CategoryServiceTests {
     private Category category;
     private List<Category> list;
 
-    private Long existingId;
-    private Long nonExistingId;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -44,8 +42,6 @@ public class CategoryServiceTests {
 
         when(repository.findAll()).thenReturn(list); // Simula o comportamento do método findAll() do repositório, retornando a lista de categorias criada
 
-        existingId = 1L;
-        nonExistingId = 999L;
     }
 
     @Test

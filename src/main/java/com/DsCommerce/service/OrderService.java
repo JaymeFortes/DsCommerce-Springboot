@@ -54,12 +54,12 @@ public class OrderService {
         order.setClient(user);
 
         for (OrderItemDTO itemDto : orderDTO.getItems()) {
-            Product product = productRepository.getById(itemDto.getProductId());
+            Product product = productRepository.getReferenceById(itemDto.getProductId());
             OrderItem item = new OrderItem(order, product, itemDto.getQuantity(), product.getPrice());
             order.getItems().add(item);
         }
 
-        orderRepository.save(order);
+        order = orderRepository.save(order);
         orderItemRepository.saveAll(order.getItems());
 
         return new OrderDTO(order);
