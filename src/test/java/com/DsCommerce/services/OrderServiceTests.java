@@ -131,7 +131,6 @@ public class OrderServiceTests {
         when(userService.authenticate()).thenReturn(admin);
 
         OrderDTO result = service.insert(orderDTO);
-        System.out.println(orderDTO);
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(result.getId(), existingId);
@@ -142,7 +141,6 @@ public class OrderServiceTests {
         when(userService.authenticate()).thenReturn(client);
 
         OrderDTO result = service.insert(orderDTO);
-        System.out.println(orderDTO);
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(result.getId(), existingId);
