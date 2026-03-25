@@ -104,6 +104,8 @@
                         <exclude>com/DsCommerce/controlls/handlers/**</exclude>
                         <exclude>com/DsCommerce/exceptions/**</exclude>
                         <exclude>com/DsCommerce/enums/**</exclude>
+                        <exclude>com/DsCommerce/util/**</exclude>
+                        <exclude>com/DsCommerce/controllers/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>
